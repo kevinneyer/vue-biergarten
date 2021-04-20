@@ -1,10 +1,21 @@
 <template>
     <div>
-        All Beers
-        <div v-if="loaded">
-            <div v-for="beer in beers" :key="beer.id">
-                {{ beer.name }}
+        <h1 class='header'>All Beers</h1>
+        <div class='beers' v-if="loaded">
+            <div class='beer-cards' v-for="beer in beers" :key="beer.id">
+                <div>
+                    <img class='image' :src="beer.img_url"  :alt="beer.name" />
+                </div>
+                <div class='card-info'>
+                    <h4>{{ beer.name }}</h4>
+                    <h5>{{ beer.brewery}}</h5>
+                    <p>{{ beer.style }} - {{ beer.abv }}%</p>
+                    <a href='http://localhost:8080/beerid'><button>More Info</button></a>
+                </div>
             </div>
+        </div>
+        <div v-else>
+            Something Went Wrong
         </div>
     </div>
 </template>
@@ -33,3 +44,33 @@ export default {
     }
 }
 </script>
+
+<style>
+    .beers{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+    .header{
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    .beer-cards{
+          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+          height: 350px;
+          width: 300px;
+          margin-top: 5px;
+          margin-right: 5px;
+          margin-bottom: 5px;
+    }
+    .image{
+        display: block;
+        margin: auto;
+        text-align: center;
+        width: 115px;
+    }
+    .card-info{
+        text-align: center;
+    }
+</style>
