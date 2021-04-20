@@ -1,6 +1,8 @@
 <template>
     <div>
         <h1 class='header'>All Beers</h1>
+          <FilterBeers 
+          @style-handler='filterStyles'/>
         <div class='beers' v-if="!loading">
             <div class='beer-cards' v-for="beer in beers" :key="beer.id">
                 <div>
@@ -23,8 +25,13 @@
 </template>
 
 <script>
+import FilterBeers from './FilterBeers'
+
 export default {
     name: 'Beers',
+    components: {
+        FilterBeers
+    },
     data() {
         return{
             beers: [],
@@ -39,6 +46,11 @@ export default {
                 this.beers = res.data;
                 this.loading = false
             })
+        },
+        filterStyles(style){
+            let spreadBeers = [...this.beers]
+            this.beers = spreadBeers.filter( beer => beer.style.includes(style))
+           
         }
     },
     mounted() {

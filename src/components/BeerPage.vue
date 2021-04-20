@@ -1,10 +1,10 @@
 <template>
     <div v-if="!loading">
-        <div class='beer-cards' >
+        <div class='show-beer'>
             <div>
-                <img class='image' :src="showBeer.img_url"  :alt="showBeer.name" />
+                <img class='show-image' :src="showBeer.img_url"  :alt="showBeer.name" />
             </div>
-            <div class='card-info'>
+            <div>
                 <h4>{{ showBeer.name }}</h4>
                 <h5>{{ showBeer.brewery}}</h5>
                 <p>{{ showBeer.style }} - {{ showBeer.abv }}%</p>
@@ -12,13 +12,18 @@
                 <p>{{ showBeer.tasting_notes }}</p>
             </div>
         </div>
+        <Reviews :reviews="showBeer.reviews" />
     </div>
 </template>
 
 <script>
+import Reviews from './Reviews'
+
 export default {
     name: 'BeerPage',
-    props: ['id'],
+    components: {
+        Reviews
+    },
     data() {
         return{
             showBeer: [],
@@ -42,21 +47,11 @@ export default {
 </script>
 
 <style>
-    .beer-cards{
-          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-          height: auto;
-          width: 50%;
-          margin-top: 5px;
-          margin-right: 5px;
-          margin-bottom: 5px;
+    .show-beer{
+        width: 50%;
+        height: 50%;
     }
-    .image{
-        display: block;
-        margin: auto;
-        text-align: center;
-        width: 115px;
-    }
-    .card-info{
-        text-align: center;
+    .show-image{
+        width: 25%
     }
 </style>
