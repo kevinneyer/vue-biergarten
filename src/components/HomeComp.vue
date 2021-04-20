@@ -9,7 +9,7 @@
 import Beers from './Beers';
 
 export default {
-   name: 'Home',
+   name: 'HomeComp',
    components: {
        Beers
    }
