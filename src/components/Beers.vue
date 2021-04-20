@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1 class='header'>All Beers</h1>
-        <div class='beers' v-if="loaded">
+        <div class='beers' v-if="!loading">
             <div class='beer-cards' v-for="beer in beers" :key="beer.id">
                 <div>
                     <img class='image' :src="beer.img_url"  :alt="beer.name" />
@@ -9,13 +9,15 @@
                 <div class='card-info'>
                     <h4>{{ beer.name }}</h4>
                     <h5>{{ beer.brewery}}</h5>
-                    <p>{{ beer.style }} - {{ beer.abv }}%</p>
-                    <a href='http://localhost:8080/beerid'><button>More Info</button></a>
+                    <p>{{ beer.style }} - {{ beer.abv }}%</p>        
+                    <router-link :to="{ name: 'ShowPage', params: { id: beer.id } }"> 
+                        <button>More Info</button>
+                    </router-link>
                 </div>
             </div>
         </div>
         <div v-else>
-            Something Went Wrong
+            Loading....
         </div>
     </div>
 </template>
@@ -23,10 +25,10 @@
 <script>
 export default {
     name: 'Beers',
-    data(){
+    data() {
         return{
             beers: [],
-            loaded: false
+            loading: true
         }
     },
     methods: {
@@ -35,7 +37,7 @@ export default {
             axios.get('http://localhost:3001/api/v1/beers/')
             .then((res) => {
                 this.beers = res.data;
-                this.loaded = true
+                this.loading = false
             })
         }
     },
