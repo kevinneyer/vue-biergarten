@@ -13,11 +13,20 @@
             </div>
         </div>
         <Reviews :reviews="showBeer.reviews" />
+        <!-- <div class='add-review'>
+            <form v-on:submit='reviewHandler'>
+                <input v-model="review" type='text' placeholder="Review Here..."/>
+                <input v-model="rating" type='text' placeholder="Rating Here..."/>
+                <input type='submit'/>
+            </form>
+            
+        </div> -->
     </div>
 </template>
 
 <script>
 import Reviews from './Reviews'
+// import axios from 'axios';
 
 export default {
     name: 'BeerPage',
@@ -27,7 +36,9 @@ export default {
     data() {
         return{
             showBeer: [],
-            loading: true
+            loading: true,
+            review: '',
+            rating: 0
         }
     },
     methods: {
@@ -53,5 +64,9 @@ export default {
     }
     .show-image{
         width: 25%
+    }
+    .add-review{
+        display: block;
+        margin: auto;
     }
 </style>

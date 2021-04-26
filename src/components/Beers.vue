@@ -2,7 +2,8 @@
     <div>
         <h1 class='header'>All Beers</h1>
           <FilterBeers 
-          @style-handler='filterStyles'/>
+          @style-handler='filterStyles'
+          @sort-handler='sortHandler'/>
         <div class='beers' v-if="!loading">
             <div class='beer-cards' v-for="beer in beers" :key="beer.id">
                 <div>
@@ -26,6 +27,7 @@
 
 <script>
 import FilterBeers from './FilterBeers'
+import axios from 'axios';
 
 export default {
     name: 'Beers',
@@ -34,23 +36,42 @@ export default {
     },
     data() {
         return{
+            originalBeers: [],
             beers: [],
             loading: true
         }
     },
     methods: {
         getBeers(){
-            const axios = require('axios');
+            // const axios = require('axios');
             axios.get('http://localhost:3001/api/v1/beers/')
             .then((res) => {
-                this.beers = res.data;
+                this.originalBeers = res.data;
                 this.loading = false
             })
         },
         filterStyles(style){
-            let spreadBeers = [...this.beers]
-            this.beers = spreadBeers.filter( beer => beer.style.includes(style))
-           
+            let spread = [...this.originalBeers]
+
+            if( style === "All" || !style ){
+                this.beers = spread
+            } else if(style){
+                this.beers = spread.filter(beer => beer.style.includes(style))
+            } 
+        },
+        sortHandler(sort){
+            if(sort === 'a-z'){
+                this.beers.sort((a,b) => (a.name < b.name ? -1 : 1) )
+            } else if
+                (sort === 'z-a'){
+                this.beers.sort((a,b) => (a.name < b.name ? 1 : -1) )
+            } else if
+                (sort === 'abv-asc'){
+                    this.beers.sort((a,b) => (a.abv < b.abv ? -1 : 1) )
+            } else if
+                (sort === 'abv-desc'){
+                    this.beers.sort((a,b) => (a.abv < b.abv ? 1 : -1) )
+            } 
         }
     },
     mounted() {
