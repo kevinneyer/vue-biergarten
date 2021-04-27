@@ -3,9 +3,9 @@
         <h1 class='header'>All Beers</h1>
           <FilterBeers 
           @style-handler='filterStyles'
-          @sort-handler='sortHandler'/>
+          @sort-handler='sortHandler' />
         <div class='beers' v-if="!loading">
-            <div class='beer-cards' v-for="beer in beers" :key="beer.id">
+            <div class='beer-cards' v-for="beer in letsFilter" :key="beer.id">
                 <div>
                     <img class='image' :src="beer.img_url"  :alt="beer.name" />
                 </div>
@@ -38,28 +38,25 @@ export default {
         return{
             originalBeers: [],
             beers: [],
-            loading: true
+            loading: true,
+            filter: 'null',
+            sort: null
         }
     },
     methods: {
         getBeers(){
-            // const axios = require('axios');
             axios.get('http://localhost:3001/api/v1/beers/')
             .then((res) => {
-                this.originalBeers = res.data;
+                this.beers = res.data;
                 this.loading = false
             })
         },
         filterStyles(style){
-            let spread = [...this.originalBeers]
-
-            if( style === "All" || !style ){
-                this.beers = spread
-            } else if(style){
-                this.beers = spread.filter(beer => beer.style.includes(style))
-            } 
+            this.filter = style
         },
         sortHandler(sort){
+            this.sort = sort
+            console.log(this.sort)
             if(sort === 'a-z'){
                 this.beers.sort((a,b) => (a.name < b.name ? -1 : 1) )
             } else if
@@ -76,6 +73,17 @@ export default {
     },
     mounted() {
         this.getBeers()
+    },
+    computed: {
+        letsFilter(){
+            // return [...this.beers]
+            let spread = [...this.beers]
+
+            if(this.filter === 'null'){
+                return spread
+            } else
+                return spread.filter(beer => beer.style.includes(this.filter))
+        }
     }
 }
 </script>
