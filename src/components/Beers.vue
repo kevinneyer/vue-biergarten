@@ -56,19 +56,6 @@ export default {
         },
         sortHandler(sort){
             this.sort = sort
-            console.log(this.sort)
-            if(sort === 'a-z'){
-                this.beers.sort((a,b) => (a.name < b.name ? -1 : 1) )
-            } else if
-                (sort === 'z-a'){
-                this.beers.sort((a,b) => (a.name < b.name ? 1 : -1) )
-            } else if
-                (sort === 'abv-asc'){
-                    this.beers.sort((a,b) => (a.abv < b.abv ? -1 : 1) )
-            } else if
-                (sort === 'abv-desc'){
-                    this.beers.sort((a,b) => (a.abv < b.abv ? 1 : -1) )
-            } 
         }
     },
     mounted() {
@@ -76,13 +63,12 @@ export default {
     },
     computed: {
         letsFilter(){
-            // return [...this.beers]
             let spread = [...this.beers]
 
-            if(this.filter === 'null'){
-                return spread
-            } else
+            if(this.filter !== 'null'){
                 return spread.filter(beer => beer.style.includes(this.filter))
+            } else
+                return spread 
         }
     }
 }
