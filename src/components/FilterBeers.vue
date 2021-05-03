@@ -22,20 +22,11 @@
 <script>
 export default {
     name: 'FilterBeers',
-    // props: ['sort', 'filter'],
-    // data() {
-    //     return{
-    //         style: '',
-    //         filter: ''
-    //     }
-    // },
     methods: {
         styleHandler(event) {
-            // this.filter = event.target.value
             this.$emit('style-handler', event.target.value)
         },
         sortHandler(event) {
-            // this.sort = event.target.value
             this.$emit('sort-handler', event.target.value)
         }
     }
