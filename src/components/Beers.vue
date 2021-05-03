@@ -20,7 +20,7 @@
             </div>
         </div>
         <div v-else>
-            Loading....
+            Loading...
         </div>
     </div>
 </template>
@@ -36,11 +36,10 @@ export default {
     },
     data() {
         return{
-            originalBeers: [],
             beers: [],
             loading: true,
             filter: 'null',
-            sort: null
+            sort: 'null'
         }
     },
     methods: {
@@ -63,10 +62,28 @@ export default {
     },
     computed: {
         letsFilter(){
-            let spread = [...this.beers]
-
-            if(this.filter !== 'null'){
+            let spread = [...this.beers];
+            // Begin Sort and Filter Logic
+            if(this.filter !== 'null' && this.sort === 'null'){
                 return spread.filter(beer => beer.style.includes(this.filter))
+            } else if (this.filter !== 'null' && this.sort === 'a-z'){
+                return spread.filter(beer => beer.style.includes(this.filter)).sort((a,b) => (a.name < b.name ? -1 : 1))
+            } else if(this.filter !== 'null' && this.sort === 'z-a'){
+                return spread.filter(beer => beer.style.includes(this.filter)).sort((a,b) => (a.name > b.name ? -1 : 1))
+            } else if(this.filter !== 'null' && this.sort === 'abv-asc'){
+                return spread.filter(beer => beer.style.includes(this.filter)).sort((a,b) => (a.abv < b.abv ? -1 : 1))
+            } else if(this.filter !== 'null' && this.sort === 'abv-desc'){
+                return spread.filter(beer => beer.style.includes(this.filter)).sort((a,b) => (a.abv > b.abv ? -1 : 1))
+            } 
+            // If No Filter Selected
+            else if (this.filter === 'null' && this.sort === 'a-z'){
+                return spread.sort((a,b) => (a.name < b.name ? -1 : 1))
+            } else if(this.filter === 'null' && this.sort === 'z-a'){
+                return spread.sort((a,b) => (a.name > b.name ? -1 : 1))
+            } else if(this.filter === 'null' && this.sort === 'abv-asc'){
+                return spread.sort((a,b) => (a.abv < b.abv ? -1 : 1))
+            } else if(this.filter === 'null' && this.sort === 'abv-desc'){
+                return spread.sort((a,b) => (a.abv > b.abv ? -1 : 1))
             } else
                 return spread 
         }
